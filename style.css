@@ -53,8 +53,8 @@ a:visited {
 /* WORKOUT LIST */
 .list {
   background-color: var(--color-dark--1);
-  width: 100vw;
-  height: 93vh;
+  width: 93vw;
+  height: 96vh;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -62,7 +62,7 @@ a:visited {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border-radius: 8px;
+  border-radius: 12px;
   z-index: 20;
 }
 
