@@ -70,31 +70,6 @@ a:visited {
   visibility: hidden;
 }
 
-.list-btn {
-  position: fixed;
-  top: 2.5rem;
-  right: 2.5rem;
-  padding: 1rem 2rem;
-  background-color: var(--color-dark--2);
-  border-radius: 6px;
-  color: var(--color-light--2);
-  border: unset;
-  outline: unset;
-  z-index: 30;
-  transition: all 0.3s;
-  cursor: pointer;
-  font-weight: 400;
-}
-
-.list-btn:focus {
-  outline: none;
-  border: none;
-}
-.list-btn:hover {
-  background-color: var(--color-brand--1);
-  color: var(--color-dark--1);
-}
-
 .logo {
   height: 4.2rem;
   align-self: center;
@@ -117,12 +92,25 @@ a:visited {
   border-radius: 5px;
   padding: 1.5rem 2.25rem;
   margin-bottom: 1.75rem;
-  cursor: pointer;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 0.75rem 1.5rem;
 }
-.workouts .controls {
+
+.workout span {
+  cursor: pointer;
+}
+
+.controls {
+  background-color: unset;
+  margin: 0;
+}
+
+.controls div {
+  cursor: pointer;
+}
+
+.workouts {
   grid-template-columns: 1fr 1fr;
   text-align: center;
   font-size: 1.3rem;
