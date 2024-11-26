@@ -64,16 +64,33 @@ a:visited {
   transform: translate(-50%, -50%);
   border-radius: 12px;
   z-index: 20;
+  border: 1px solid var(--color-brand--2);
 }
 
 .list--hidden {
   visibility: hidden;
 }
 
+.list-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .logo {
   height: 4.2rem;
-  align-self: center;
-  margin-bottom: 4rem;
+  margin-left: 4rem;
+  display: inline-block;
+}
+
+.close {
+  height: 2.6rem;
+  margin-bottom: 4.5rem;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.close:hover {
+  opacity: 1;
 }
 
 .workouts {
@@ -97,6 +114,7 @@ a:visited {
   gap: 0.75rem 1.5rem;
 }
 
+.workout,
 .workout span {
   cursor: pointer;
 }
@@ -104,14 +122,35 @@ a:visited {
 .controls {
   background-color: unset;
   margin: 0;
+  padding-right: 0;
+  padding-left: 0;
 }
 
 .controls div {
   cursor: pointer;
+  text-align: right;
+}
+
+.controls--deleteAll {
+  color: var(--color-brand--1);
+  opacity: 0.85;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.controls--deleteAll__title {
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--color-brand--1);
+  border-radius: 50px;
+}
+
+.controls--deleteAll:hover {
+  opacity: 1;
 }
 
 .workouts {
-  grid-template-columns: 1fr 1fr;
+  width: 100% !important;
+  grid-template-columns: 1fr 1fr !important;
   text-align: center;
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
@@ -168,6 +207,7 @@ a:visited {
 .workout__edit {
   opacity: 0.8;
   transition: color 0.2s, opacity 0.2s;
+  color: var(--color-brand--1);
 }
 .workout__delete:hover,
 .workout__edit:hover {
