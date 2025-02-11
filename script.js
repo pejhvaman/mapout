@@ -231,6 +231,9 @@ class App {
     `;
 
     workoutsForm.insertAdjacentHTML("afterend", controlBtns);
+
+    const controlBtnEl = document.querySelector(".controls");
+    controlBtnEl.addEventListener("click", this.reset);
   }
 
   _renderOnList(workout) {
@@ -305,7 +308,7 @@ class App {
   _handleWorkoutActions(e) {
     const workoutTarget = e.target.closest(".workout");
 
-    const workoutId = workoutTarget.dataset.id;
+    const workoutId = workoutTarget?.dataset.id;
 
     const deleteWorkoutBtn = e.target.closest(".workout__delete");
 
@@ -326,6 +329,8 @@ class App {
     this._clearMap();
     //render rest workouts
     this._renderWorkoutsOnMapOnList();
+    //store in local
+    this._storeWorkouts();
   }
 
   _clearList() {
