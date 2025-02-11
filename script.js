@@ -3,7 +3,7 @@
 const workoutsContainer = document.querySelector(".list");
 const workoutsList = document.querySelector(".workouts");
 const workoutsForm = document.querySelector(".form");
-// const workoutsEl = document.querySelectorAll(".workout");
+// const workoutsEl = document.querySelec torAll(".workout");
 const workoutTypeInput = document.querySelector(".form__input--type");
 const distanceInput = document.querySelector(".form__input--distance");
 const durationInput = document.querySelector(".form__input--duration");
@@ -20,8 +20,6 @@ class Workout {
     this.distance = distance;
     this.duration = duration;
   }
-
-  // setDescription for popup
 
   _setDescription() {
     const months = [
@@ -43,6 +41,7 @@ class Workout {
   }
 
   click() {
+    //PAPI
     this.clicked++;
   }
 }
@@ -135,8 +134,9 @@ class App {
     workoutsContainer.classList.remove("list--hidden");
     workoutsForm.classList.remove("hidden");
 
+    this._renderControlBtns();
+
     setTimeout(() => distanceInput.focus(), 500);
-    // distanceInput.focus();
   }
 
   _hideForm() {
@@ -230,7 +230,7 @@ class App {
           </li>
     `;
 
-    workoutsForm.insertAdjacentHTML("beforebegin", controlBtns);
+    workoutsForm.insertAdjacentHTML("afterend", controlBtns);
   }
 
   _renderOnList(workout) {
@@ -279,7 +279,7 @@ class App {
         </li>
     `;
 
-    workoutsForm.insertAdjacentHTML("afterend", html);
+    workoutsList.insertAdjacentHTML("beforeend", html);
   }
 
   _renderOnMap(workout) {
@@ -305,15 +305,39 @@ class App {
   _handleWorkoutActions(e) {
     const workoutTarget = e.target.closest(".workout");
 
-    if (workoutTarget) {
-      this._moveToWorkout(workoutTarget.dataset.id);
-    } else return;
+    const workoutId = workoutTarget.dataset.id;
 
-    // const deleteBtnTarget = e.target.classList.contains('workout__delete');
-    // if(deleteBtnTarget) this._deleteWorkout(deleteBtnTarget.closest('.workout').dataset.id);
+    const deleteWorkoutBtn = e.target.closest(".workout__delete");
 
-    // const editBtnTarget = e.target.classList.contains('workout__edit');
-    // if(editBtnTarget) this._editWorkout();
+    if (deleteWorkoutBtn) {
+      this._deleteWorkout(workoutId);
+    }
+
+    // if (workoutTarget) {
+    //   this._moveToWorkout(workoutTarget.dataset.id);
+    // }
+  }
+
+  _deleteWorkout(id) {
+    this.#workouts = this.#workouts.filter((w) => w.id !== id);
+    //clear list
+    this._clearList();
+    //clear map
+    this._clearMap();
+    //render rest workouts
+    this._renderWorkoutsOnMapOnList();
+  }
+
+  _clearList() {
+    document.querySelectorAll(".workout").forEach((w) => w.remove());
+  }
+
+  _clearMap() {
+    this.#map.eachLayer((layer) => {
+      if (layer instanceof L.Marker) {
+        this.#map.removeLayer(layer);
+      }
+    });
   }
 
   _moveToWorkout(id) {
@@ -341,7 +365,12 @@ class App {
 
     this.#workouts = data;
 
+    this._renderWorkoutsOnMapOnList();
+  }
+
+  _renderWorkoutsOnMapOnList() {
     this.#workouts.forEach((workout) => this._renderOnList(workout));
+
     this.#workouts.forEach((workout) => this._renderOnMap(workout));
   }
 
