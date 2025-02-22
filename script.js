@@ -10,6 +10,7 @@ const durationInput = document.querySelector(".form__input--duration");
 const cadenceInput = document.querySelector(".form__input--cadence");
 const elevationInput = document.querySelector(".form__input--elevation");
 const closeBtn = document.querySelector(".close");
+const startBtn = document.querySelector(".start-btn");
 
 class Workout {
   clicked = 0;
@@ -91,11 +92,14 @@ class App {
     workoutTypeInput.addEventListener("change", this._toggleWorkoutType);
 
     closeBtn.addEventListener("click", this._hideForm);
+    closeBtn.addEventListener("click", this._showStartBtn);
 
     workoutsList.addEventListener(
       "click",
       this._handleWorkoutActions.bind(this)
     );
+
+    startBtn.addEventListener("click", this._showForm.bind(this));
   }
 
   _getCurrentLocation() {
@@ -119,9 +123,18 @@ class App {
     }).addTo(this.#map);
 
     this.#map.on("click", this._showForm.bind(this));
+    this.#map.on("click", this._hideStartBtn.bind(this));
     this.#map.on("move", this._hideForm);
 
     this._getStoredWorkouts();
+  }
+
+  _hideStartBtn() {
+    startBtn.classList.add("hidden");
+  }
+
+  _showStartBtn() {
+    startBtn.classList.remove("hidden");
   }
 
   _renderErrMsg(msg) {
@@ -137,6 +150,8 @@ class App {
     this._renderControlBtns();
 
     setTimeout(() => distanceInput.focus(), 500);
+
+    this._hideStartBtn();
   }
 
   _hideForm() {
@@ -218,22 +233,31 @@ class App {
   }
 
   _renderControlBtns() {
-    if (this.#workouts.length === 0 || document.querySelector(".controls"))
-      return;
-    const controlBtns = `
-          <li class="controls">
-            <div></div>
-            <div></div>
-            <div class="controls--deleteAll">
-              <span class="controls--deleteAll__title">Delete all</span>
-            </div>
-          </li>
-    `;
+    if (this.#workouts.length === 0 || document.querySelector(".controls")) {
+      // console.log(this.#workouts);
+      document
+        .querySelector(".controls")
+        ?.querySelector(".controls--deleteAll")
+        ?.remove();
+    } else if (
+      this.#workouts.length > 0 &&
+      !document.querySelector(".controls")
+    ) {
+      const controlBtns = `
+      <li class="controls">
+      <div></div>
+      <div></div>
+      <div class="controls--deleteAll">
+      <span class="controls--deleteAll__title">Delete all</span>
+      </div>
+      </li>
+      `;
 
-    workoutsForm.insertAdjacentHTML("afterend", controlBtns);
+      workoutsForm.insertAdjacentHTML("afterend", controlBtns);
 
-    const controlBtnEl = document.querySelector(".controls");
-    controlBtnEl.addEventListener("click", this.reset);
+      const controlBtnEl = document.querySelector(".controls");
+      controlBtnEl.addEventListener("click", this.reset);
+    }
   }
 
   _renderOnList(workout) {
@@ -316,9 +340,9 @@ class App {
       this._deleteWorkout(workoutId);
     }
 
-    // if (workoutTarget) {
-    //   this._moveToWorkout(workoutTarget.dataset.id);
-    // }
+    if (workoutTarget && !deleteWorkoutBtn) {
+      this._moveToWorkout(workoutTarget?.dataset.id);
+    }
   }
 
   _deleteWorkout(id) {
@@ -331,6 +355,8 @@ class App {
     this._renderWorkoutsOnMapOnList();
     //store in local
     this._storeWorkouts();
+    //render action btns
+    this._renderControlBtns();
   }
 
   _clearList() {
@@ -356,6 +382,7 @@ class App {
     });
 
     this._hideForm();
+    this._showStartBtn();
   }
 
   _storeWorkouts() {

@@ -354,7 +354,12 @@ a:visited {
 }
 
 .start-btn:hover {
-  opacity: 80%;
+  background-color: var(--color-dark--2);
+}
+
+.start-btn.hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 
 @media (min-width: 425px) {
