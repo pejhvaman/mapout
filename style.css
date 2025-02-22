@@ -240,6 +240,10 @@ a:visited {
   transition: all 0.5s, transform 1ms;
 }
 
+.form > p {
+  align-content: center;
+}
+
 .form.hidden {
   transform: translateY(-30rem);
   height: 0;
@@ -360,6 +364,10 @@ a:visited {
 .start-btn.hidden {
   opacity: 0;
   visibility: hidden;
+}
+
+.helper-msg__new-workout {
+  font-size: 2rem;
 }
 
 @media (min-width: 425px) {

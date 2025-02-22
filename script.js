@@ -99,7 +99,27 @@ class App {
       this._handleWorkoutActions.bind(this)
     );
 
-    startBtn.addEventListener("click", this._showForm.bind(this));
+    startBtn.addEventListener("click", this._showWorkouts.bind(this));
+  }
+
+  _showWorkouts() {
+    this._showForm();
+    this._hideFormFields();
+  }
+
+  _hideFormFields() {
+    workoutsForm?.classList.add("hidden");
+    this._renderAddWorkoutMsg();
+  }
+
+  _renderAddWorkoutMsg() {
+    const helperMsg =
+      '<p class="helper-msg__new-workout">Click on the map to add a new workout!</p>';
+    workoutsForm.insertAdjacentHTML("afterend", helperMsg);
+  }
+
+  _removeAddWorkoutMsg() {
+    document.querySelector(".helper-msg__new-workout")?.remove();
   }
 
   _getCurrentLocation() {
@@ -152,6 +172,7 @@ class App {
     setTimeout(() => distanceInput.focus(), 500);
 
     this._hideStartBtn();
+    this._removeAddWorkoutMsg();
   }
 
   _hideForm() {
@@ -177,7 +198,10 @@ class App {
     const type = workoutTypeInput.value;
     const distance = +distanceInput.value;
     const duration = +durationInput.value;
-    const { lat, lng } = this.#mapEvent.latlng;
+    // if (!this.#mapEvent || !this.#mapEvent.latlng)
+    //   console.error("click on the map to add a new workout");
+
+    const { lat, lng } = this.#mapEvent?.latlng;
     const coords = [lat, lng];
 
     // validate inputs with positivite
@@ -233,7 +257,7 @@ class App {
   }
 
   _renderControlBtns() {
-    if (this.#workouts.length === 0 || document.querySelector(".controls")) {
+    if (this.#workouts.length === 0 && document.querySelector(".controls")) {
       // console.log(this.#workouts);
       document
         .querySelector(".controls")
@@ -336,12 +360,18 @@ class App {
 
     const deleteWorkoutBtn = e.target.closest(".workout__delete");
 
+    const editWorkoutBtn = e.target.closest(".workout__edit");
+
+    if (workoutTarget && !deleteWorkoutBtn && !editWorkoutBtn) {
+      this._moveToWorkout(workoutTarget?.dataset.id);
+    }
+
     if (deleteWorkoutBtn) {
       this._deleteWorkout(workoutId);
     }
 
-    if (workoutTarget && !deleteWorkoutBtn) {
-      this._moveToWorkout(workoutTarget?.dataset.id);
+    if (editWorkoutBtn) {
+      console.log("edit");
     }
   }
 
@@ -357,6 +387,8 @@ class App {
     this._storeWorkouts();
     //render action btns
     this._renderControlBtns();
+    //close the form
+    // this._hideForm();
   }
 
   _clearList() {
