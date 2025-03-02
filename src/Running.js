@@ -1,4 +1,4 @@
-import Workout from "./Workout.js";
+import Workout from "./Workout";
 
 export default class Running extends Workout {
   name = "running";

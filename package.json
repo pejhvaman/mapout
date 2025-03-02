@@ -1,0 +1,25 @@
+{
+  "name": "mapout",
+  "version": "1.0.0",
+  "description": "Mapout | Workout On Map Tracker",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pejhvaman/mapout.git"
+  },
+  "author": "Pezhwa",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "bugs": {
+    "url": "https://github.com/pejhvaman/mapout/issues"
+  },
+  "homepage": "https://github.com/pejhvaman/mapout#readme"
+}

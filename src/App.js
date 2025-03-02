@@ -1,9 +1,9 @@
 "use strict";
 
-import Running from "./Running.js";
-import Cycling from "./Cycling.js";
+import Running from "./Running";
+import Cycling from "./Cycling";
 
-import { isAllValid, isAllPositive } from "./helpers.js";
+import { isAllValid, isAllPositive } from "./helpers";
 
 const workoutsContainer = document.querySelector(".list");
 const workoutsList = document.querySelector(".workouts");
