@@ -1,5 +1,8 @@
 "use strict";
 
+import Running from "./Running.js";
+import Cycling from "./Cycling.js";
+
 const workoutsContainer = document.querySelector(".list");
 const workoutsList = document.querySelector(".workouts");
 const workoutsForm = document.querySelector(".form");
@@ -11,70 +14,6 @@ const cadenceInput = document.querySelector(".form__input--cadence");
 const elevationInput = document.querySelector(".form__input--elevation");
 const closeBtn = document.querySelector(".close");
 const startBtn = document.querySelector(".start-btn");
-
-class Workout {
-  clicked = 0;
-  date = new Date();
-  id = crypto.randomUUID();
-  constructor(coords, distance, duration) {
-    this.coords = coords;
-    this.distance = distance;
-    this.duration = duration;
-  }
-
-  _setDescription() {
-    const months = [
-      "January",
-      "Febuary",
-      "March",
-      "April",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    this.description = `${this.name === "running" ? "🏃‍♀️" : "🚴‍♀️"} ${
-      this.name[0].toUpperCase() + this.name.slice(1)
-    } ${months[this.date.getMonth()]} ${this.date.getDate()}`;
-  }
-
-  click() {
-    //PAPI
-    this.clicked++;
-  }
-}
-
-class Running extends Workout {
-  name = "running";
-  constructor(coords, distance, duration, cadence) {
-    super(coords, distance, duration);
-    this.cadence = cadence; // step/min
-    this.calcPace();
-    this._setDescription();
-  }
-
-  calcPace() {
-    this.pace = this.duration / this.distance; // min/km
-    return this.pace;
-  }
-}
-class Cycling extends Workout {
-  name = "cycling";
-  constructor(coords, distance, duration, elevation) {
-    super(coords, distance, duration);
-    this.elevation = elevation; // meter-> can be negative
-    this.calcSpeed();
-    this._setDescription();
-  }
-
-  calcSpeed() {
-    this.speed = this.distance / (this.duration / 60); // km/h
-    return this.speed;
-  }
-}
 
 class App {
   #map;

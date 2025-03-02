@@ -16,6 +16,9 @@
 - Restore objects from localStorage after page reload
 - More intuitive UI messages for better user experience
 - Ability to position the map to show all workouts
+
+### More advanced features:
+
 - Ability to draw lines and shapes
 - Geocode location from cordinates to show a better description of location (ex: Bury Road in London, England)
 - Display weather data for workout time and place
