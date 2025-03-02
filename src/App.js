@@ -3,6 +3,8 @@
 import Running from "./Running.js";
 import Cycling from "./Cycling.js";
 
+import { isAllValid, isAllPositive } from "./helpers.js";
+
 const workoutsContainer = document.querySelector(".list");
 const workoutsList = document.querySelector(".workouts");
 const workoutsForm = document.querySelector(".form");
@@ -122,14 +124,6 @@ class App {
     workoutsContainer.classList.add("list--hidden");
   }
 
-  _isAllValid(...inputs) {
-    return inputs.every((input) => isFinite(input));
-  }
-
-  _isAllPositive(...inputs) {
-    return inputs.every((input) => input > 0);
-  }
-
   _newWorkout(e) {
     e.preventDefault();
 
@@ -148,8 +142,8 @@ class App {
     if (type === "running") {
       const cadence = +cadenceInput.value;
       if (
-        !this._isAllValid(distance, duration, cadence) ||
-        !this._isAllPositive(distance, duration, cadence)
+        !isAllValid(distance, duration, cadence) ||
+        !isAllPositive(distance, duration, cadence)
       )
         return this._renderErrMsg("Enter valid and positive numbers! 😡");
 
@@ -159,8 +153,8 @@ class App {
     if (type === "cycling") {
       const elevation = +elevationInput.value;
       if (
-        !this._isAllValid(distance, duration, elevation) ||
-        !this._isAllPositive(distance, duration)
+        !isAllValid(distance, duration, elevation) ||
+        !isAllPositive(distance, duration)
       )
         return this._renderErrMsg("Enter valid and positive numbers! 😡");
 
