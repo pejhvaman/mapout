@@ -86,6 +86,7 @@ class App {
     this.#map.on("click", this._showForm.bind(this));
     this.#map.on("click", this._hideStartBtn.bind(this));
     this.#map.on("move", this._hideForm);
+    this.#map.on("move", this._showStartBtn);
 
     this._getStoredWorkouts();
   }
@@ -192,10 +193,7 @@ class App {
   _renderControlBtns() {
     if (this.#workouts.length === 0 && document.querySelector(".controls")) {
       // console.log(this.#workouts);
-      document
-        .querySelector(".controls")
-        ?.querySelector(".controls--deleteAll")
-        ?.remove();
+      document.querySelector(".controls")?.remove();
     } else if (
       this.#workouts.length > 0 &&
       !document.querySelector(".controls")
@@ -212,8 +210,8 @@ class App {
 
       workoutsForm.insertAdjacentHTML("afterend", controlBtns);
 
-      const controlBtnEl = document.querySelector(".controls");
-      controlBtnEl.addEventListener("click", this.reset);
+      const deleteAllBtn = document.querySelector(".controls--deleteAll");
+      deleteAllBtn?.addEventListener("click", this._reset.bind(this));
     }
   }
 
@@ -300,7 +298,7 @@ class App {
     }
 
     if (deleteWorkoutBtn) {
-      this._deleteWorkout(workoutId);
+      return this._deleteWorkout(workoutId);
     }
 
     if (editWorkoutBtn) {
@@ -371,9 +369,13 @@ class App {
     this.#workouts.forEach((workout) => this._renderOnMap(workout));
   }
 
-  reset() {
+  _reset() {
     localStorage.removeItem("workouts");
-    location.reload();
+    this.#workouts = [];
+    this._clearList();
+    this._clearMap();
+    this._renderControlBtns();
+    // location.reload();
   }
 }
 
