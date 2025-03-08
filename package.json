@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Mapout | Workout On Map Tracker",
   "scripts": {
-    "start": "serve dist",
+    "start": "webpack-dev-server",
     "build": "webpack --config webpack.config.js"
   },
   "repository": {
