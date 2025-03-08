@@ -1,0 +1,9 @@
+{
+  "builds": [
+    {
+      "src": "webpack.config.prod.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "outputDirectory": "dist"
+}
