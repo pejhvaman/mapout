@@ -1,9 +1,10 @@
 {
   "builds": [
     {
-      "src": "webpack.config.prod.js",
-      "use": "@vercel/node"
+      "src": "webpack.config.js",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     }
   ],
-  "outputDirectory": "dist"
+  "routes": [{ "src": "/(.*)", "dest": "/index.html" }]
 }

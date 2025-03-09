@@ -1,5 +1,7 @@
 "use strict";
 
+import "./app.css";
+
 import Running from "./Running";
 import Cycling from "./Cycling";
 
