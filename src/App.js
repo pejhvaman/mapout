@@ -43,6 +43,8 @@ class App {
     );
 
     startBtn.addEventListener("click", this._showWorkouts.bind(this));
+
+    console.warn("Use a VPN!");
   }
 
   _showWorkouts() {
