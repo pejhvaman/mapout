@@ -6,6 +6,7 @@ import Running from "./Running";
 import Cycling from "./Cycling";
 
 import { isAllValid, isAllPositive } from "./helpers";
+import { toast } from "./ToastManager";
 
 const workoutsContainer = document.querySelector(".list");
 const workoutsList = document.querySelector(".workouts");
@@ -71,7 +72,9 @@ class App {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         this._loadMap.bind(this),
-        this._renderErrMsg.bind(this, "We couldn't find your location! 🥵")
+
+        // Fallback function when geolocation doesn't work!
+        toast.show("We couldn't find your location! 🥵", "error")
       );
     }
   }
@@ -103,10 +106,6 @@ class App {
     startBtn.classList.remove("hidden");
   }
 
-  _renderErrMsg(msg) {
-    alert(`${msg} ⭕`);
-  }
-
   _showForm(mapE) {
     this.#mapEvent = mapE;
 
@@ -122,9 +121,7 @@ class App {
   }
 
   _hideForm() {
-    // workoutsForm.style.display = "none";
     workoutsForm.classList.add("hidden");
-    // setTimeout(() => (workoutsForm.style.display = "grid"), 300);
 
     workoutsContainer.classList.add("list--hidden");
   }
@@ -136,13 +133,11 @@ class App {
     const type = workoutTypeInput.value;
     const distance = +distanceInput.value;
     const duration = +durationInput.value;
-    // if (!this.#mapEvent || !this.#mapEvent.latlng)
-    //   console.error("click on the map to add a new workout");
 
     const { lat, lng } = this.#mapEvent?.latlng;
     const coords = [lat, lng];
 
-    // validate inputs with positivite
+    // validate inputs
     let workout;
     if (type === "running") {
       const cadence = +cadenceInput.value;
@@ -150,7 +145,7 @@ class App {
         !isAllValid(distance, duration, cadence) ||
         !isAllPositive(distance, duration, cadence)
       )
-        return this._renderErrMsg("Enter valid and positive numbers! 😡");
+        return toast.show("Enter valid and positive numbers!", "warning");
 
       workout = new Running(coords, distance, duration, cadence);
       this.#workouts.push(workout);
@@ -161,7 +156,10 @@ class App {
         !isAllValid(distance, duration, elevation) ||
         !isAllPositive(distance, duration)
       )
-        return this._renderErrMsg("Enter valid and positive numbers! 😡");
+        return toast.show(
+          "Enter valid and positive numbers! Elevation gain can be negative!",
+          "warning"
+        );
 
       workout = new Cycling(coords, distance, duration, elevation);
       this.#workouts.push(workout);
@@ -322,8 +320,9 @@ class App {
     this._storeWorkouts();
     //render action btns
     this._renderControlBtns();
-    //close the form
-    // this._hideForm();
+    // TODO: confirmation message first!
+    //show deletion message
+    toast.show("Workout was deleted successfully", "success");
   }
 
   _clearList() {
