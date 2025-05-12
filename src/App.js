@@ -44,8 +44,6 @@ class App {
     );
 
     startBtn.addEventListener("click", this._showWorkouts.bind(this));
-
-    console.warn("Use a VPN!");
   }
 
   _showWorkouts() {
@@ -74,7 +72,11 @@ class App {
         this._loadMap.bind(this),
 
         // Fallback function when geolocation doesn't work!
-        toast.show("We couldn't find your location! 🥵", "error")
+        () =>
+          toast.show(
+            "We couldn't find your location! 🥵 Make sure your using a VPN, and then refresh the app!",
+            "error"
+          )
       );
     }
   }
@@ -165,6 +167,13 @@ class App {
       this.#workouts.push(workout);
     }
 
+    // show creation workout message
+    toast.show(
+      `${
+        type.at(0).toUpperCase() + type.slice(1)
+      } workout was created successfully!`
+    );
+
     this._renderOnList(workout);
 
     this._renderOnMap(workout);
@@ -213,6 +222,9 @@ class App {
       workoutsForm.insertAdjacentHTML("afterend", controlBtns);
 
       const deleteAllBtn = document.querySelector(".controls--deleteAll");
+
+      //TODO: Do the confirmtion first!
+
       deleteAllBtn?.addEventListener("click", this._reset.bind(this));
     }
   }
@@ -321,6 +333,7 @@ class App {
     //render action btns
     this._renderControlBtns();
     // TODO: confirmation message first!
+
     //show deletion message
     toast.show("Workout was deleted successfully", "success");
   }
@@ -367,7 +380,6 @@ class App {
         ? new Running(el.coords, el.distance, el.duration, el.cadence)
         : new Cycling(el.coords, el.distance, el.duration, el.elevation)
     );
-    console.log(restoredObjects);
 
     // Set the app's workouts to stored workouts
     this.#workouts = restoredObjects;
@@ -389,6 +401,11 @@ class App {
     this._clearMap();
     this._renderControlBtns();
     // location.reload();
+    // show reset/deleteAll message
+    toast.show(
+      "All workouts has been deleted and the app was reset successfully!",
+      "success"
+    );
   }
 }
 
