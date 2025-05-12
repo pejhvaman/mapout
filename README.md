@@ -7,13 +7,14 @@
 - Track two types of workouts (e.g., running and cycling)
 - Display workouts on a map and in a sortable list
 - Data persistence using localStorage
+- Responsive layout using CSS3
 
 ## Upcoming Enhancements:
 
 - Delete individual workouts or clear all workouts ✅Implemented
 - Edit workouts to adjust details
 - Sort workouts based on specific criteria
-- Restore objects from localStorage after page reload
+- Restore objects from localStorage after page reload ✅Implemented
 - More intuitive UI messages and confirmations for better user experience
 - Ability to position the map to show all workouts
 
