@@ -65,4 +65,5 @@
 - **Leaflet.js** for maps
 - **Local Storage** for data persistence
 - **CSS3** for styling
+- **Toastify-js** for UI messages
 
