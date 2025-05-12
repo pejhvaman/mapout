@@ -29,7 +29,10 @@ export default class Workout {
   }
 
   click() {
-    //PAPI
+    //Public API
     this.clicked++;
+    console.log(
+      `This ${this.name} workout has been clicked ${this.clicked} time(s).`
+    );
   }
 }

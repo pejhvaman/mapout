@@ -341,7 +341,7 @@ class App {
   _moveToWorkout(id) {
     const workout = this.#workouts.find((workout) => workout.id === id);
     console.log(workout);
-    // workout.click();
+    workout.click();
 
     this.#map.setView(workout.coords, this.#zoomLevel, {
       pan: { duration: 1 },
@@ -357,13 +357,23 @@ class App {
   }
 
   _getStoredWorkouts() {
+    // Reading workouts from localStorage
     const data = JSON.parse(localStorage.getItem("workouts"));
-    console.log(data);
 
     if (!data) return;
 
-    this.#workouts = data;
+    // Restore objects from localStorage after page reload to rebuild their prototype => this will fix the problem with the public API that is inheritted from a parent class (Workouts) to a child class (Running/Cycling)
+    const restoredObjects = data.map((el) =>
+      el.name === "running"
+        ? new Running(el.coords, el.distance, el.duration, el.cadence)
+        : new Cycling(el.coords, el.distance, el.duration, el.elevation)
+    );
+    console.log(restoredObjects);
 
+    // Set the app's workouts to stored workouts
+    this.#workouts = restoredObjects;
+
+    // Show the restored workouts on the map and on the list
     this._renderWorkoutsOnMapOnList();
   }
 
