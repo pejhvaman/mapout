@@ -16,7 +16,7 @@
 - Sort workouts based on specific criteria
 - Restore objects from localStorage after page reload ✅Implemented
 - More intuitive UI messages and confirmations for better user experience ✅Implemented
-- Ability to position the map to show all workouts
+- Ability to position the map to show all workouts ✅Implemented
 
 ### Upcoming advanced features:
 
@@ -29,8 +29,8 @@
 
 > This project is a work in progress, with continuous improvements planned for better functionality and user experience.
 
-
 > ## Installation
+
 1. Clone the repository:
    ```sh
    git clone https://github.com/pejhvaman/mapout.git
@@ -53,6 +53,7 @@
    ```
 
 ## Usage
+
 - Click on the map to add a new workout.
 - Fill in workout details (e.g., type, duration, distance, etc.).
 - View workouts in the list.
@@ -60,10 +61,10 @@
 - Use the "Delete All" option to clear all workouts.
 
 ## Technologies Used
+
 - **JavaScript (ES6+)**
 - **Webpack** for bundling
 - **Leaflet.js** for maps
 - **Local Storage** for data persistence
 - **CSS3** for styling
 - **Toastify-js** for UI messages
-

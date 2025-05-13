@@ -18,7 +18,9 @@ const durationInput = document.querySelector(".form__input--duration");
 const cadenceInput = document.querySelector(".form__input--cadence");
 const elevationInput = document.querySelector(".form__input--elevation");
 const closeBtn = document.querySelector(".close");
-const startBtn = document.querySelector(".start-btn");
+const showWorkoutsBtns = document.querySelector(".show-workouts");
+const startBtn = document.querySelector(".show-workouts__on-list");
+const showWorkoutsOnMapBtn = document.querySelector(".show-workouts__on-map");
 
 class App {
   #map;
@@ -36,7 +38,7 @@ class App {
     workoutTypeInput.addEventListener("change", this._toggleWorkoutType);
 
     closeBtn.addEventListener("click", this._hideForm);
-    closeBtn.addEventListener("click", this._showStartBtn);
+    // closeBtn.addEventListener("click", this._showShowWorkoutsBtns);
 
     workoutsList.addEventListener(
       "click",
@@ -44,11 +46,29 @@ class App {
     );
 
     startBtn.addEventListener("click", this._showWorkouts.bind(this));
+
+    showWorkoutsOnMapBtn.addEventListener(
+      "click",
+      this._showWorkoutsOnMap.bind(this)
+    );
   }
 
   _showWorkouts() {
     this._showForm();
     this._hideFormFields();
+    showWorkoutsBtns.classList.add("hidden");
+  }
+
+  _showWorkoutsOnMap() {
+    if (this.#workouts.length === 0) return;
+
+    const group = new L.featureGroup(
+      this.#workouts.map((work) => L.marker(work.coords))
+    );
+
+    this.#map.fitBounds(group.getBounds(), {
+      padding: [50, 50], // optional: adds some space around markers
+    });
   }
 
   _hideFormFields() {
@@ -93,19 +113,19 @@ class App {
     }).addTo(this.#map);
 
     this.#map.on("click", this._showForm.bind(this));
-    this.#map.on("click", this._hideStartBtn.bind(this));
+    this.#map.on("click", this._hideShowWorkoutsBtns.bind(this));
     this.#map.on("move", this._hideForm);
-    this.#map.on("move", this._showStartBtn);
+    this.#map.on("move", this._showShowWorkoutsBtns);
 
     this._getStoredWorkouts();
   }
 
-  _hideStartBtn() {
-    startBtn.classList.add("hidden");
+  _hideShowWorkoutsBtns() {
+    showWorkoutsBtns.classList.add("hidden");
   }
 
-  _showStartBtn() {
-    startBtn.classList.remove("hidden");
+  _showShowWorkoutsBtns() {
+    showWorkoutsBtns.classList.remove("hidden");
   }
 
   _showForm(mapE) {
@@ -118,7 +138,7 @@ class App {
 
     setTimeout(() => distanceInput.focus(), 500);
 
-    this._hideStartBtn();
+    this._hideShowWorkoutsBtns();
     this._removeAddWorkoutMsg();
   }
 
@@ -126,6 +146,8 @@ class App {
     workoutsForm.classList.add("hidden");
 
     workoutsContainer.classList.add("list--hidden");
+
+    showWorkoutsBtns.classList.remove("hidden");
   }
 
   _newWorkout(e) {
@@ -361,7 +383,7 @@ class App {
     });
 
     this._hideForm();
-    this._showStartBtn();
+    this._showShowWorkoutsBtns();
   }
 
   _storeWorkouts() {
