@@ -1,11 +1,11 @@
 :root {
-  --color-brand--1: #f57059;
-  --color-brand--2: #05796b;
-  --color-dark--1: #202e55;
-  --color-dark--2: #252a36;
-  --color-light--1: #fee2c0;
-  --color-light--2: #cecece;
-  --color-light--3: #d6e7fc;
+  --color-brand--1: #ff6978;
+  --color-brand--2: #0fa3b1;
+  --color-dark--1: #111344;
+  --color-dark--2: #372549;
+  --color-light--1: #ffffff;
+  --color-light--2: #fffcf9;
+  --color-light--3: #b1ede8;
 }
 
 * {
@@ -29,7 +29,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100svh;
 }
 
 /* GENERAL */
@@ -43,7 +43,7 @@ a:visited {
   flex-direction: column-reverse;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   padding: 1.5rem;
   margin: auto;
   position: relative;
@@ -54,7 +54,7 @@ a:visited {
 .list {
   background-color: var(--color-dark--1);
   width: 93vw;
-  height: 96vh;
+  height: 90vh;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -308,7 +308,7 @@ a:visited {
 /* MAP */
 #map {
   width: 100%;
-  height: 100vh;
+  height: 100svh;
   background-color: var(--color-light--1);
   z-index: 10;
   border-radius: 8px;
@@ -320,6 +320,7 @@ a:visited {
   color: var(--color-light--3);
   border-radius: 5px;
   padding-right: 0.6rem;
+  border: 1px solid var(--color-light--3);
 }
 
 .leaflet-popup .leaflet-popup-content {
