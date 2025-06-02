@@ -233,10 +233,8 @@ class App {
     ) {
       const controlBtns = `
       <li class="controls">
-      <div></div>
-      <div></div>
       <div class="controls--deleteAll">
-      <span class="controls--deleteAll__title">Delete all</span>
+        <span class="controls--deleteAll__title">Delete all</span>
       </div>
       </li>
       `;
