@@ -9,7 +9,9 @@ class ToastManager {
       style: {
         borderRadius: "8px",
         fontSize: "16px",
-        marginTop: "6px",
+        margin: "6px",
+        fontSize: "14px",
+        textWrap: "balance",
       },
       ...defaultOptions,
     };
