@@ -16,7 +16,8 @@
 - Edit workouts to adjust details
 - Sort workouts based on specific criteria
 - Restore objects from localStorage after page reload ✅Implemented
-- More intuitive UI messages and confirmations for better user experience ✅Implemented
+- More intuitive UI messages for better user experience ✅Implemented
+- Having confirmations for some actions like deleting and ... for better UX
 - Ability to position the map to show all workouts ✅Implemented
 
 ### Upcoming advanced features:
