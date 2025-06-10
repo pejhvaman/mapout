@@ -4,14 +4,15 @@ class ToastManager {
       duration: 3000,
       gravity: "top",
       position: "center",
-      close: true,
+      // close: true,
       stopOnFocus: true,
       style: {
         borderRadius: "8px",
         fontSize: "16px",
-        margin: "6px",
+        margin: "6px auto",
         fontSize: "14px",
-        textWrap: "balance",
+        padding: "16px",
+        maxWidth: "90%",
       },
       ...defaultOptions,
     };

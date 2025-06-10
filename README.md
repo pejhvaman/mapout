@@ -12,12 +12,12 @@
 ## Upcoming Enhancements:
 
 - Delete individual workouts or clear all workouts ✅Implemented
-- Ability to position the map to show user's current area
+- Ability to position the map to show user's current area ✅Implemented
 - Edit workouts to adjust details
 - Sort workouts based on specific criteria
 - Restore objects from localStorage after page reload ✅Implemented
 - More intuitive UI messages for better user experience ✅Implemented
-- Having confirmations for some actions like deleting and ... for better UX
+- Having confirmations for some actions like deleting and ... for better UX ✅Implemented
 - Ability to position the map to show all workouts ✅Implemented
 
 ### Upcoming advanced features:

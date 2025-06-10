@@ -21,6 +21,9 @@ const closeBtn = document.querySelector(".close");
 const showWorkoutsBtns = document.querySelector(".show-workouts");
 const startBtn = document.querySelector(".show-workouts__on-list");
 const showWorkoutsOnMapBtn = document.querySelector(".show-workouts__on-map");
+const useCurrentLocationBtn = document.querySelector(".use-location-btn");
+const overlay = document.querySelector(".overlay");
+const confirmationModal = document.querySelector(".confirmation-modal");
 
 class App {
   #map;
@@ -50,6 +53,12 @@ class App {
     showWorkoutsOnMapBtn.addEventListener(
       "click",
       this._showWorkoutsOnMap.bind(this)
+    );
+
+    // attaching event listener to use your location btn
+    useCurrentLocationBtn.addEventListener(
+      "click",
+      this._useCurrentLocation.bind(this)
     );
   }
 
@@ -118,6 +127,27 @@ class App {
     this.#map.on("move", this._showShowWorkoutsBtns);
 
     this._getStoredWorkouts();
+  }
+
+  _useCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        this._loadCurrentMapLocation.bind(this),
+
+        () =>
+          toast.show(
+            "We couldn't find your location! 🥵 Make sure your using a VPN, and then refresh the app!",
+            "error"
+          )
+      );
+    }
+  }
+
+  _loadCurrentMapLocation(position) {
+    const { latitude, longitude } = position.coords;
+    const currentCoords = [latitude, longitude];
+
+    this.#map.setView(currentCoords, this.#zoomLevel);
   }
 
   _hideShowWorkoutsBtns() {
@@ -243,9 +273,10 @@ class App {
 
       const deleteAllBtn = document.querySelector(".controls--deleteAll");
 
-      //TODO: Do the confirmtion first!
-
-      deleteAllBtn?.addEventListener("click", this._reset.bind(this));
+      deleteAllBtn?.addEventListener(
+        "click",
+        this._resetWithConfirmation.bind(this)
+      );
     }
   }
 
@@ -332,7 +363,7 @@ class App {
     }
 
     if (deleteWorkoutBtn) {
-      return this._deleteWorkout(workoutId);
+      return this._deleteWorkoutWithConfirmation(workoutId);
     }
 
     if (editWorkoutBtn) {
@@ -340,7 +371,15 @@ class App {
     }
   }
 
+  _deleteWorkoutWithConfirmation(id) {
+    this._showConfirmationModal(
+      this._deleteWorkout.bind(this, id),
+      this._hideConfirmationModal
+    );
+  }
+
   _deleteWorkout(id) {
+    //removing from workouts array
     this.#workouts = this.#workouts.filter((w) => w.id !== id);
     //clear list
     this._clearList();
@@ -352,10 +391,12 @@ class App {
     this._storeWorkouts();
     //render action btns
     this._renderControlBtns();
-    // TODO: confirmation message first!
-
+    // Close the list after deleting
+    this._hideForm();
     //show deletion message
     toast.show("Workout was deleted successfully", "success");
+    //Hide the confirmation modal
+    this._hideConfirmationModal();
   }
 
   _clearList() {
@@ -414,18 +455,53 @@ class App {
     this.#workouts.forEach((workout) => this._renderOnMap(workout));
   }
 
-  _reset() {
+  _resetWithConfirmation() {
+    this._showConfirmationModal(
+      this._doReset.bind(this),
+      this._hideConfirmationModal
+    );
+  }
+
+  _showConfirmationModal(confirmHandler, cancelHandler) {
+    overlay.classList.remove("hidden");
+    confirmationModal.classList.remove("hidden");
+
+    const confirmNoBtn = document.querySelector(".confirm-no");
+    const confirmYesBtn = document.querySelector(".confirm-yes");
+
+    confirmYesBtn.addEventListener("click", confirmHandler);
+    confirmNoBtn.addEventListener("click", cancelHandler);
+  }
+
+  _hideConfirmationModal() {
+    overlay.classList.add("hidden");
+    confirmationModal.classList.add("hidden");
+
+    const confirmNoBtn = document.querySelector(".confirm-no");
+    const confirmYesBtn = document.querySelector(".confirm-yes");
+
+    const newConfirmYesBtn = confirmYesBtn.cloneNode(true);
+    confirmYesBtn.parentNode.replaceChild(newConfirmYesBtn, confirmYesBtn);
+
+    const newConfirmNoBtn = confirmNoBtn.cloneNode(true);
+    confirmNoBtn.parentNode.replaceChild(newConfirmNoBtn, confirmNoBtn);
+  }
+
+  _doReset() {
     localStorage.removeItem("workouts");
     this.#workouts = [];
     this._clearList();
     this._clearMap();
     this._renderControlBtns();
-    // location.reload();
+    // close the list
+    this._hideForm();
     // show reset/deleteAll message
     toast.show(
       "All workouts has been deleted and the app was reset successfully!",
       "success"
     );
+
+    this._hideConfirmationModal();
   }
 }
 
