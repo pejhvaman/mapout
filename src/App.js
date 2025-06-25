@@ -266,6 +266,12 @@ class App {
       <div class="controls--deleteAll">
         <span class="controls--deleteAll__title">Delete all</span>
       </div>
+      <div class="controls--sort">
+        <span class="controls--sort__title">Sort</span>
+      </div>
+      <div class="controls--filter">
+        <span class="controls--filter__title">Filter</span>
+      </div>
       </li>
       `;
 

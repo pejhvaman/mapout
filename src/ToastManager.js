@@ -12,7 +12,6 @@ class ToastManager {
         margin: "6px auto",
         fontSize: "14px",
         padding: "16px",
-        maxWidth: "90%",
       },
       ...defaultOptions,
     };

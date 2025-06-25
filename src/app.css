@@ -130,7 +130,7 @@ a:visited {
 }
 
 .controls {
-  grid-template-columns: 1fr !important;
+  /* grid-template-columns: 1fr !important; */
   background-color: unset;
   margin: 0;
   padding-right: 0;
@@ -139,7 +139,8 @@ a:visited {
 
 .controls div {
   cursor: pointer;
-  text-align: right;
+  text-align: center;
+  font-size: 1.4rem;
 }
 
 .controls--deleteAll {
@@ -157,6 +158,13 @@ a:visited {
 
 .controls--deleteAll:hover {
   opacity: 1;
+}
+
+.controls--sort__title,
+.controls--filter__title {
+  border: 1px solid var(--color-brand--2);
+  padding: 0.4rem 1.4rem;
+  border-radius: 100px;
 }
 
 .workouts {
@@ -428,6 +436,18 @@ a:visited {
   color: var(--color-dark--2);
   z-index: 20;
   font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.use-location-btn:hover {
+  background-color: var(--color-dark--1);
+  color: var(--color-light--3);
+}
+
+.use-location-btn:active {
+  outline: 2px solid var(--color-brand--2);
+  outline-offset: 2px;
 }
 
 @media only screen and (min-width: 768px) {
@@ -470,6 +490,7 @@ a:visited {
   font-size: 16px;
   border-radius: 8px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .confirm-no {

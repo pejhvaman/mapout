@@ -15,6 +15,7 @@
 - Ability to position the map to show user's current area ✅Implemented
 - Edit workouts to adjust details
 - Sort workouts based on specific criteria
+- Filter workouts based on the existing workout types ✅Implemented
 - Restore objects from localStorage after page reload ✅Implemented
 - More intuitive UI messages for better user experience ✅Implemented
 - Having confirmations for some actions like deleting and ... for better UX ✅Implemented
