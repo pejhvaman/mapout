@@ -5,6 +5,8 @@ import "./app.css";
 import Running from "./Running";
 import Cycling from "./Cycling";
 
+import { FILTER_CRITERIAS, WORKOUT_TYPES } from "./constants";
+
 import { isAllValid, isAllPositive } from "./helpers";
 import { toast } from "./ToastManager";
 
@@ -267,10 +269,20 @@ class App {
         <span class="controls--deleteAll__title">Delete all</span>
       </div>
       <div class="controls--sort">
-        <span class="controls--sort__title">Sort</span>
+        <span class="controls--sort__title">Sort<img class="controls--sort__icon" src="./assets/sort.png" /></span>
+        <ul class="controls--sort__list hidden">
+          ${WORKOUT_TYPES.map(
+            (w) => `<li class="controls--sort__item">${w}</li>`
+          ).join("")}
+        </ul>
       </div>
       <div class="controls--filter">
-        <span class="controls--filter__title">Filter</span>
+        <span class="controls--filter__title">Filter<img class="controls--filter__icon" src="./assets/menu.png" /></span>
+        <ul class="controls--filter__list hidden">
+          ${FILTER_CRITERIAS.map(
+            (w) => `<li class="controls--filter__item">${w}</li>`
+          ).join("")}
+        </ul>
       </div>
       </li>
       `;
