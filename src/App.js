@@ -5,7 +5,7 @@ import "./app.css";
 import Running from "./Running";
 import Cycling from "./Cycling";
 
-import { FILTER_CRITERIAS, WORKOUT_TYPES } from "./constants";
+import { COMMON_FILTER_CRITERIAS, WORKOUT_TYPES } from "./constants";
 
 import { isAllValid, isAllPositive } from "./helpers";
 import { toast } from "./ToastManager";
@@ -15,6 +15,7 @@ const workoutsList = document.querySelector(".workouts");
 const workoutsForm = document.querySelector(".form");
 // const workoutsEl = document.querySelec torAll(".workout");
 const workoutTypeInput = document.querySelector(".form__input--type");
+// const formRows = document.querySelectorAll(".form__row");
 const distanceInput = document.querySelector(".form__input--distance");
 const durationInput = document.querySelector(".form__input--duration");
 const cadenceInput = document.querySelector(".form__input--cadence");
@@ -32,6 +33,7 @@ class App {
   #mapEvent;
   #zoomLevel = 15;
   #workouts = [];
+  #currentWorkout = WORKOUT_TYPES[0]; //initial type
 
   constructor() {
     // get current position-> load map and attach handler to it
@@ -40,7 +42,10 @@ class App {
     // submit handler to form
     workoutsForm.addEventListener("submit", this._newWorkout.bind(this));
     // change handler toggle elev and cadence inputs
-    workoutTypeInput.addEventListener("change", this._toggleWorkoutType);
+    workoutTypeInput.addEventListener(
+      "change",
+      this._toggleWorkoutType.bind(this)
+    );
 
     closeBtn.addEventListener("click", this._hideForm);
     // closeBtn.addEventListener("click", this._showShowWorkoutsBtns);
@@ -172,6 +177,8 @@ class App {
 
     this._hideShowWorkoutsBtns();
     this._removeAddWorkoutMsg();
+
+    // TODO: hide use current location
   }
 
   _hideForm() {
@@ -180,6 +187,8 @@ class App {
     workoutsContainer.classList.add("list--hidden");
 
     showWorkoutsBtns.classList.remove("hidden");
+
+    //TODO show use current button
   }
 
   _newWorkout(e) {
@@ -250,8 +259,24 @@ class App {
   }
 
   _toggleWorkoutType() {
-    elevationInput.closest(".form__row").classList.toggle("form__row--hidden");
-    cadenceInput.closest(".form__row").classList.toggle("form__row--hidden");
+    const selectedType = workoutTypeInput.value;
+    // cadenceInput.closest(".form__row").classList.add("form__row--hidden");
+    // elevationInput.closest(".form__row").classList.add("form__row--hidden");
+
+    if (selectedType === "running") {
+      cadenceInput.closest(".form__row").classList.remove("form__row--hidden");
+
+      elevationInput.closest(".form__row").classList.add("form__row--hidden");
+    }
+
+    if (selectedType === "cycling") {
+      elevationInput
+        .closest(".form__row")
+        .classList.remove("form__row--hidden");
+      cadenceInput.closest(".form__row").classList.add("form__row--hidden");
+    }
+
+    this.#currentWorkout = selectedType;
     distanceInput.focus();
   }
 
@@ -272,15 +297,17 @@ class App {
         <span class="controls--sort__title">Sort<img class="controls--sort__icon" src="./assets/sort.png" /></span>
         <ul class="controls--sort__list hidden">
           ${WORKOUT_TYPES.map(
-            (w) => `<li class="controls--sort__item">${w}</li>`
+            (workout) =>
+              `<li class="controls--sort__item ${workout}">${workout}</li>`
           ).join("")}
         </ul>
       </div>
       <div class="controls--filter">
         <span class="controls--filter__title">Filter<img class="controls--filter__icon" src="./assets/menu.png" /></span>
         <ul class="controls--filter__list hidden">
-          ${FILTER_CRITERIAS.map(
-            (w) => `<li class="controls--filter__item">${w}</li>`
+          ${COMMON_FILTER_CRITERIAS.map(
+            (filter) =>
+              `<li class="controls--filter__item ${filter}">${filter}</li>`
           ).join("")}
         </ul>
       </div>
@@ -290,12 +317,30 @@ class App {
       workoutsForm.insertAdjacentHTML("afterend", controlBtns);
 
       const deleteAllBtn = document.querySelector(".controls--deleteAll");
+      const sortBtn = document.querySelector(".controls--sort__title");
+      // const filterBtn = document.querySelector(".controls--filter__title");
 
       deleteAllBtn?.addEventListener(
         "click",
         this._resetWithConfirmation.bind(this)
       );
+
+      sortBtn?.addEventListener("click", this._toggleSortList);
     }
+  }
+
+  _toggleSortList(e) {
+    const sortList = document.querySelector(".controls--sort__list");
+
+    console.log(sortList);
+
+    sortList?.classList.toggle("hidden");
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".controls--sort")) {
+        sortList.classList.add("hidden");
+      }
+    });
   }
 
   _renderOnList(workout) {
